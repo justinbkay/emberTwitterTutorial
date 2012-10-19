@@ -22,52 +22,65 @@
 			<strong>Search Twitter:</strong>
 			{{view App.SearchTextField id="term" valueBinding="App.tweetsC.term"}}
 		</div>
-		
-		{{#view App.tweetsV}}
-			<div id="content" class="span12">
-		
-				<div class="row">
-					{{#if App.tweetsC.firstRun}}
-						<div class="span6 offset3">
-							<p>To display some Tweets, please use the search box above.</p>
-						</div>
-						{{else}}
-							{{#if App.tweetsC.loader}}
-							<div class="span12 text-center loader">
-								<img src="css/loading.gif" width="32" height="32" />
-								<br />
-								loading
-							</div>
-							{{else}}
-								{{#if App.tweetsC.limit}}
-								<div class="span6 offset3">
-									<p>Oh Dear! It appears we've hit Twitter's API limit. Please try again in an hour</p>
-								</div>
-								{{else}}
-								<div class="span6 offset3">
-									{{#each App.tweetsC}}
-										<div class="row">
-											<div class="span6 clearfix tweet">
-												<div class="pull-left tweet_profile_pic">
-													<img {{bindAttr src="profilePic"}} />
-												</div>
-												<div class="pull-right tweet_data">
-													<div class="clearfix tweet_meta">
-														<div class="pull-left"><strong>{{username}}</strong></div>
-														<div class="pull-right"><small>{{date}}</small></div>
-													</div>
-													<p>{{text}}</p>
-												</div>
-											</div>
-										</div>
-									{{/each}}
-								</div>
-								{{/if}}
-							{{/if}}
-					{{/if}}
+
+    {{#view App.helperView }}
+      {{#if App.tweetsC.firstRun}}
+        <div class="span6 offset3">
+          <p>To display some Tweets, please use the search box above.</p>
+        </div>
+      {{/if}}
+    {{/view}}
+
+    {{#view App.loadingView}}
+      {{#if App.tweetsC.loader}}
+        <div class="span12 text-center loader">
+          <img src="css/loading.gif" width="32" height="32" />
+          <br />
+          loading
+        </div>
+      {{/if}}
+    {{/view}}
+
+    {{#view App.limitView}}
+      {{#if App.tweetsC.limit}}
+				<div class="span6 offset3">
+					<p>Oh Dear! It appears we've hit Twitter's API limit. Please try again in an hour</p>
 				</div>
-			</div>
-		{{/view}}
+      {{/if}}
+    {{/view}}
+
+    {{#view App.noresultsView}}
+      {{#if App.tweetsC.noresults}}
+        <div class="span6 offset3">
+          <p>No results were returned for your search</p>
+        </div>
+      {{/if}}
+    {{/view}}
+
+    <div id="content" class="span12">
+      <div class="row">
+        <div class="span6 offset3">
+          {{#each App.tweetsC}}
+            {{#view App.tweetsV}}
+              <div class="row">
+                <div class="span6 clearfix tweet">
+                  <div class="pull-left tweet_profile_pic">
+                    <img {{bindAttr src="profilePic"}} />
+                  </div>
+                  <div class="pull-right tweet_data">
+                    <div class="clearfix tweet_meta">
+                      <div class="pull-left"><strong>{{username}}</strong></div>
+                      <div class="pull-right"><small>{{date}}</small></div>
+                    </div>
+                    <p>{{text}}</p>
+                  </div>
+                </div>
+              </div>
+            {{/view}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
 	</script>
 
 </body>
